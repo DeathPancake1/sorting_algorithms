@@ -1,5 +1,6 @@
 import copy
 import random
+import time
 
 
 def merge_sort(arr):
@@ -105,13 +106,33 @@ if __name__ == '__main__':
     arr50k = [random.randint(1, 100000) for _ in range(50000)]
     arr100k = [random.randint(1, 100000) for _ in range(100000)]
     temp100k = copy.deepcopy(arr100k)
-    hybrid_sort(temp100k, 20)
+    startTime = time.time()
+    hybrid_sort(temp100k, 100)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'hybrid: {elapsedTime}')
     temp100k = copy.deepcopy(arr100k)
+    startTime = time.time()
     merge_sort(temp100k)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'merge: {elapsedTime}')
     temp100k = copy.deepcopy(arr100k)
+    startTime = time.time()
     selection_sort(temp100k)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'selection: {elapsedTime}')
     temp100k = copy.deepcopy(arr100k)
+    startTime = time.time()
     insertion_sort(temp100k)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'insertion: {elapsedTime}')
     temp100k = copy.deepcopy(arr100k)
+    startTime = time.time()
     quick_sort(temp100k, 0, 99999)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'quick sort: {elapsedTime}')
     print('done')
