@@ -1,3 +1,7 @@
+import copy
+import random
+
+
 def merge_sort(arr):
     if len(arr) > 1:
         mid = len(arr) // 2
@@ -43,16 +47,22 @@ def insertion_sort(arr):
         key = arr[i]
         hole = i
         while hole > 0 and arr[hole - 1] > key:
-            arr[hole] = a[hole - 1]
+            arr[hole] = arr[hole - 1]
             hole = hole - 1
         arr[hole] = key
 
 
 def quick_sort(arr, first, last):
     if first < last:
-        q = partition(arr, first, last)
+        q = partitionrand(arr, first, last)
         quick_sort(arr, first, q - 1)
         quick_sort(arr, q + 1, last)
+
+# gets random element, exchanges it with the first element then calls partition
+def partitionrand(arr, first, last):
+    randpivot = random.randrange(first, last)
+    arr[first], arr[randpivot] = arr[randpivot], arr[first]
+    return partition(arr, first, last)
 
 
 def partition(arr, first, last):
@@ -70,7 +80,7 @@ def partition(arr, first, last):
 def findKth(arr, start, end, k):
     j = partition(arr, start, end)
     if k == j:
-        return a[j]
+        return arr[j]
     if k < j:
         return findKth(arr, start, j - 1, k)
     if k > j:
@@ -90,9 +100,18 @@ def hybrid_sort(arr, thresh):
 
 
 if __name__ == '__main__':
-    a = [6, 1, 7, 2, 3]
-    index = findKth(a, 0, 4, 2)
-    print(a[index])
-    hybrid_sort(a, 2)
-    for el in a:
-        print(el)
+    arr1k = [random.randint(1, 100000) for _ in range(1000)]
+    arr25k = [random.randint(1, 100000) for _ in range(25000)]
+    arr50k = [random.randint(1, 100000) for _ in range(50000)]
+    arr100k = [random.randint(1, 100000) for _ in range(100000)]
+    temp100k = copy.deepcopy(arr100k)
+    hybrid_sort(temp100k, 20)
+    temp100k = copy.deepcopy(arr100k)
+    merge_sort(temp100k)
+    temp100k = copy.deepcopy(arr100k)
+    selection_sort(temp100k)
+    temp100k = copy.deepcopy(arr100k)
+    insertion_sort(temp100k)
+    temp100k = copy.deepcopy(arr100k)
+    quick_sort(temp100k, 0, 99999)
+    print('done')
