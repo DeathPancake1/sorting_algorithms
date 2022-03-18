@@ -102,11 +102,13 @@ def hybrid_sort(arr, thresh):
         selection_sort(arr)
 
 
-def testQuickSort():
-    arr1k = [random.randint(1, 100000) for _ in range(1000)]
-    arr25k = [random.randint(1, 100000) for _ in range(25000)]
-    arr50k = [random.randint(1, 100000) for _ in range(50000)]
-    arr100k = [random.randint(1, 100000) for _ in range(100000)]
+def testQuickSort(arr300, arr1k, arr25k, arr50k, arr100k):
+    temp300 = copy.deepcopy(arr300)
+    startTime = time.time()
+    quick_sort(temp300, 0, 299)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'Running time for Quick Sort is {elapsedTime * 100} ms at 300 elements')
     temp100k = copy.deepcopy(arr100k)
     startTime = time.time()
     quick_sort(temp100k, 0, 99999)
@@ -133,11 +135,13 @@ def testQuickSort():
     print(f'Running time for Quick Sort is {elapsedTime * 100} ms at 50k elements')
 
 
-def testMergeSort():
-    arr1k = [random.randint(1, 100000) for _ in range(1000)]
-    arr25k = [random.randint(1, 100000) for _ in range(25000)]
-    arr50k = [random.randint(1, 100000) for _ in range(50000)]
-    arr100k = [random.randint(1, 100000) for _ in range(100000)]
+def testMergeSort(arr300, arr1k, arr25k, arr50k, arr100k):
+    temp300 = copy.deepcopy(arr300)
+    startTime = time.time()
+    merge_sort(temp300)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'Running time for Merge Sort is {elapsedTime * 100} ms at 300 elements')
     temp100k = copy.deepcopy(arr100k)
     startTime = time.time()
     merge_sort(temp100k)
@@ -164,11 +168,13 @@ def testMergeSort():
     print(f'Running time for Merge Sort is {elapsedTime * 100} ms at 50k elements')
 
 
-def testInsertionSort():
-    arr1k = [random.randint(1, 100000) for _ in range(1000)]
-    arr25k = [random.randint(1, 100000) for _ in range(25000)]
-    arr50k = [random.randint(1, 100000) for _ in range(50000)]
-    arr100k = [random.randint(1, 100000) for _ in range(100000)]
+def testInsertionSort(arr300, arr1k, arr25k, arr50k, arr100k):
+    temp300 = copy.deepcopy(arr300)
+    startTime = time.time()
+    insertion_sort(temp300)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'Running time for Insertion Sort is {elapsedTime * 100} ms at 300 elements')
     temp100k = copy.deepcopy(arr100k)
     startTime = time.time()
     insertion_sort(temp100k)
@@ -195,11 +201,13 @@ def testInsertionSort():
     print(f'Running time for Insertion Sort is {elapsedTime * 100} ms at 50k elements')
 
 
-def testSelectionSort():
-    arr1k = [random.randint(1, 100000) for _ in range(1000)]
-    arr25k = [random.randint(1, 100000) for _ in range(25000)]
-    arr50k = [random.randint(1, 100000) for _ in range(50000)]
-    arr100k = [random.randint(1, 100000) for _ in range(100000)]
+def testSelectionSort(arr300, arr1k, arr25k, arr50k, arr100k):
+    temp300 = copy.deepcopy(arr300)
+    startTime = time.time()
+    selection_sort(temp300)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'Running time for Selection Sort is {elapsedTime * 100} ms at 300 elements')
     temp100k = copy.deepcopy(arr100k)
     startTime = time.time()
     selection_sort(temp100k)
@@ -228,20 +236,26 @@ def testSelectionSort():
 
 # Main function for testing all algorithms
 if __name__ == '__main__':
+    # We make the arrays before testing to ensure all elements test on the same arrays
+    arr300 = [random.randint(1, 100000) for _ in range(300)]
+    arr1k = [random.randint(1, 100000) for _ in range(1000)]
+    arr25k = [random.randint(1, 100000) for _ in range(25000)]
+    arr50k = [random.randint(1, 100000) for _ in range(50000)]
+    arr100k = [random.randint(1, 100000) for _ in range(100000)]
     # We call the testing function for our sorting algorithms
-    testMergeSort()
+    testMergeSort(arr300, arr1k, arr25k, arr50k, arr100k)
     print('------------------------------------------------------')
-    testQuickSort()
+    testQuickSort(arr300, arr1k, arr25k, arr50k, arr100k)
     print('------------------------------------------------------')
-    testSelectionSort()
+    testSelectionSort(arr300, arr1k, arr25k, arr50k, arr100k)
     print('------------------------------------------------------')
-    testSelectionSort()
+    testInsertionSort(arr300, arr1k, arr25k, arr50k, arr100k)
     print('------------------------------------------------------')
     arr50 = [random.randint(1, 1000) for _ in range(50)]
     temp50 = copy.deepcopy(arr50)
     # Testing the hybrid sort method with threshold of 6
     hybrid_sort(temp50, 6)
-    print('The sorted array of 50 elements')
+    print('The sorted array of 50 elements to test hybrid sort and kth element')
     for el in temp50:
         print(el, end=" ")
     # Testing kth element function to find 8th smallest element in array of 50 elements
