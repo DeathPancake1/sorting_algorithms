@@ -59,33 +59,35 @@ def quick_sort(arr, first, last):
         quick_sort(arr, first, q - 1)
         quick_sort(arr, q + 1, last)
 
-# gets random element, exchanges it with the first element then calls partition
+
+# gets random element, exchanges it with the last element then calls partition
 def partitionrand(arr, first, last):
     randpivot = random.randrange(first, last)
-    arr[first], arr[randpivot] = arr[randpivot], arr[first]
+    arr[last], arr[randpivot] = arr[randpivot], arr[last]
     return partition(arr, first, last)
 
 
-def partition(arr, first, last):
-    lastS1 = first
-    firstUnkown = first + 1
-    while firstUnkown <= last:
-        if arr[firstUnkown] < arr[first]:
-            lastS1 += 1
-            arr[firstUnkown], arr[lastS1] = arr[lastS1], arr[firstUnkown]
-        firstUnkown += 1
-    arr[first], arr[lastS1] = arr[lastS1], arr[first]
-    return lastS1
+# gets the last element in the list and partitions the list
+# to elements smaller than it on the left and higher on the right
+def partition(arr, l, r):
+    x = arr[r]
+    i = l
+    for j in range(l, r):
+        if arr[j] <= x:
+            arr[i], arr[j] = arr[j], arr[i]
+            i += 1
+    arr[i], arr[r] = arr[r], arr[i]
+    return i
 
 
-def findKth(arr, start, end, k):
-    j = partition(arr, start, end)
-    if k == j:
-        return arr[j]
-    if k < j:
-        return findKth(arr, start, j - 1, k)
-    if k > j:
-        return findKth(arr, j + 1, end, k - j)
+# The function uses partitioning to find the kth smallest element
+def findKth(arr, l, r, k):
+    pos = partition(arr, l, r)
+    if pos - l == k - 1:
+        return arr[pos]
+    if pos - l > k - 1:
+        return findKth(arr, l, pos - 1, k)
+    return findKth(arr, pos + 1, r, k - pos + l - 1)
 
 
 def hybrid_sort(arr, thresh):
@@ -100,39 +102,148 @@ def hybrid_sort(arr, thresh):
         selection_sort(arr)
 
 
-if __name__ == '__main__':
+def testQuickSort():
     arr1k = [random.randint(1, 100000) for _ in range(1000)]
     arr25k = [random.randint(1, 100000) for _ in range(25000)]
     arr50k = [random.randint(1, 100000) for _ in range(50000)]
     arr100k = [random.randint(1, 100000) for _ in range(100000)]
     temp100k = copy.deepcopy(arr100k)
     startTime = time.time()
-    hybrid_sort(temp100k, 100)
+    quick_sort(temp100k, 0, 99999)
     endTime = time.time()
     elapsedTime = endTime - startTime
-    print(f'hybrid: {elapsedTime}')
+    print(f'Running time for Quick Sort is {elapsedTime * 100} ms at 100k elements')
+    temp1k = copy.deepcopy(arr1k)
+    startTime = time.time()
+    quick_sort(temp1k, 0, 999)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'Running time for Quick Sort is {elapsedTime * 100} ms at 1k elements')
+    temp25k = copy.deepcopy(arr25k)
+    startTime = time.time()
+    quick_sort(temp25k, 0, 24999)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'Running time for Quick Sort is {elapsedTime * 100} ms at 25k elements')
+    temp50k = copy.deepcopy(arr50k)
+    startTime = time.time()
+    quick_sort(temp50k, 0, 49999)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'Running time for Quick Sort is {elapsedTime * 100} ms at 50k elements')
+
+
+def testMergeSort():
+    arr1k = [random.randint(1, 100000) for _ in range(1000)]
+    arr25k = [random.randint(1, 100000) for _ in range(25000)]
+    arr50k = [random.randint(1, 100000) for _ in range(50000)]
+    arr100k = [random.randint(1, 100000) for _ in range(100000)]
     temp100k = copy.deepcopy(arr100k)
     startTime = time.time()
     merge_sort(temp100k)
     endTime = time.time()
     elapsedTime = endTime - startTime
-    print(f'merge: {elapsedTime}')
-    temp100k = copy.deepcopy(arr100k)
+    print(f'Running time for Merge Sort is {elapsedTime * 100} ms at 100k elements')
+    temp1k = copy.deepcopy(arr1k)
     startTime = time.time()
-    selection_sort(temp100k)
+    merge_sort(temp1k)
     endTime = time.time()
     elapsedTime = endTime - startTime
-    print(f'selection: {elapsedTime}')
+    print(f'Running time for Merge Sort is {elapsedTime * 100} ms at 1k elements')
+    temp25k = copy.deepcopy(arr25k)
+    startTime = time.time()
+    merge_sort(temp25k)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'Running time for Merge Sort is {elapsedTime * 100} ms at 25k elements')
+    temp50k = copy.deepcopy(arr50k)
+    startTime = time.time()
+    merge_sort(temp50k)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'Running time for Merge Sort is {elapsedTime * 100} ms at 50k elements')
+
+
+def testInsertionSort():
+    arr1k = [random.randint(1, 100000) for _ in range(1000)]
+    arr25k = [random.randint(1, 100000) for _ in range(25000)]
+    arr50k = [random.randint(1, 100000) for _ in range(50000)]
+    arr100k = [random.randint(1, 100000) for _ in range(100000)]
     temp100k = copy.deepcopy(arr100k)
     startTime = time.time()
     insertion_sort(temp100k)
     endTime = time.time()
     elapsedTime = endTime - startTime
-    print(f'insertion: {elapsedTime}')
-    temp100k = copy.deepcopy(arr100k)
+    print(f'Running time for Insertion Sort is {elapsedTime * 100} ms at 100k elements')
+    temp1k = copy.deepcopy(arr1k)
     startTime = time.time()
-    quick_sort(temp100k, 0, 99999)
+    insertion_sort(temp1k)
     endTime = time.time()
     elapsedTime = endTime - startTime
-    print(f'quick sort: {elapsedTime}')
-    print('done')
+    print(f'Running time for Insertion Sort is {elapsedTime * 100} ms at 1k elements')
+    temp25k = copy.deepcopy(arr25k)
+    startTime = time.time()
+    insertion_sort(temp25k)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'Running time for Insertion Sort is {elapsedTime * 100} ms at 25k elements')
+    temp50k = copy.deepcopy(arr50k)
+    startTime = time.time()
+    insertion_sort(temp50k)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'Running time for Insertion Sort is {elapsedTime * 100} ms at 50k elements')
+
+
+def testSelectionSort():
+    arr1k = [random.randint(1, 100000) for _ in range(1000)]
+    arr25k = [random.randint(1, 100000) for _ in range(25000)]
+    arr50k = [random.randint(1, 100000) for _ in range(50000)]
+    arr100k = [random.randint(1, 100000) for _ in range(100000)]
+    temp100k = copy.deepcopy(arr100k)
+    startTime = time.time()
+    selection_sort(temp100k)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'Running time for Selection Sort is {elapsedTime * 100} ms at 100k elements')
+    temp1k = copy.deepcopy(arr1k)
+    startTime = time.time()
+    selection_sort(temp1k)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'Running time for Selection Sort is {elapsedTime * 100} ms at 1k elements')
+    temp25k = copy.deepcopy(arr25k)
+    startTime = time.time()
+    selection_sort(temp25k)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'Running time for Selection Sort is {elapsedTime * 100} ms at 25k elements')
+    temp50k = copy.deepcopy(arr50k)
+    startTime = time.time()
+    selection_sort(temp50k)
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+    print(f'Running time for Selection Sort is {elapsedTime * 100} ms at 50k elements')
+
+
+# Main function for testing all algorithms
+if __name__ == '__main__':
+    # We call the testing function for our sorting algorithms
+    testMergeSort()
+    print('------------------------------------------------------')
+    testQuickSort()
+    print('------------------------------------------------------')
+    testSelectionSort()
+    print('------------------------------------------------------')
+    testSelectionSort()
+    print('------------------------------------------------------')
+    arr50 = [random.randint(1, 1000) for _ in range(50)]
+    temp50 = copy.deepcopy(arr50)
+    # Testing the hybrid sort method with threshold of 6
+    hybrid_sort(temp50, 6)
+    print('The sorted array of 50 elements')
+    for el in temp50:
+        print(el, end=" ")
+    # Testing kth element function to find 8th smallest element in array of 50 elements
+    # We call this function on the unsorted array
+    print("\n" + "Kth element in array is " + str(findKth(arr50, 0, 49, 8)))
